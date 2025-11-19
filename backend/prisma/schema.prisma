@@ -1,0 +1,174 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model user {
+  id              Int     @id  @default(autoincrement())
+  username        String  @db.Text
+  usersecret      String @db.Text
+  authority       String?  @db.Text
+  items     item[]
+  withdrawals     withdrawal[]
+  withdrawalItems withdrawalItems[]
+  withdrawalCart  withdrawalCart[]
+}
+
+
+model department {
+  id String @id @unique @default(uuid())
+  name            String @unique
+  withdrawals     withdrawal[]
+
+}
+
+
+model providor {
+  id              String @id @unique @default(uuid())
+  name            String @unique
+  receipts        receipt[]
+}
+
+
+model itemParent {
+  id                  String @id @default(uuid()) @unique
+  genericName         String @unique
+  category            String
+  unit                String
+  latestWithdrawal    String?
+  latestReceive       String?
+  mainStockSpecific   Boolean
+  items               item[]
+  withdrawals         withdrawalItems[]
+}
+
+
+model item {
+  id                  Int @id @default(autoincrement())
+  itemId              Int?
+  genericName         String
+  unitInfo            String
+  unit                String
+  category            String 
+  quantity            Int
+  expireDate          String?
+  providor            String
+  receiveDate         String
+  itemParentId        String
+  stockId             Int
+  receiptId           Int?
+  withdrawalId          Int?
+  withdrawal          withdrawal? @relation(fields: [withdrawalId], references: [id])
+  stock               user @relation(fields: [stockId], references: [id])
+  itemParent          itemParent @relation(fields: [itemParentId], references: [id])
+  receipt             receipt? @relation(fields: [receiptId], references: [id])
+}
+
+
+model receipt {
+  id                  Int @id @unique @default(autoincrement())
+  date                String
+  providorName        String
+  providorId          String
+  items               receiptItems[]
+  stockItmes          item[]
+  providor            providor @relation(fields: [providorId], references: [id])
+
+}
+
+model receiptItems {
+  id                  String @id @unique @default(uuid())
+  genericName         String
+  unit                String
+  unitInfo            String
+  category            String
+  quantity            Int
+  expireDate          String?
+  receiptId           Int
+  receipt             receipt @relation(fields: [receiptId], references: [id])
+}
+
+model receiptCart {
+  id                  Int @id @unique @default(autoincrement())
+  date                String?
+  providorName        String?
+  items               receiptCartItems[]
+}
+
+model receiptCartItems {
+  id                  String @id @unique @default(uuid())
+  genericName         String
+  unit                String
+  unitInfo            String
+  category            String?
+  quantity            Int
+  expireDate          String?
+  cartId              Int
+  cart                receiptCart @relation(fields: [cartId], references: [id])
+
+}
+
+
+model withdrawal {
+  id                  Int @id @unique @default(autoincrement())
+  departmentName      String
+  date                String
+  departmentId        String
+  department          department @relation(fields: [departmentId], references: [id])
+  items               withdrawalItems[]
+  stockId              Int
+  stock                user @relation(fields: [stockId], references: [id])
+  stockItmes          item[]
+}
+
+
+model withdrawalItems {
+  id                  String @id @unique @default(uuid())
+  itemId              Int
+  genericName         String
+  unit                String
+  category            String?
+  quantity            Int
+  expireDate          String?
+  withdrawalId        Int
+  itemParentId        String
+  withdrawDate        String?
+  stockId             Int?
+  withdrawal          withdrawal @relation(fields: [withdrawalId], references: [id])
+  itemParent          itemParent @relation(fields: [itemParentId], references: [id])
+  stock               user? @relation(fields: [stockId], references: [id])
+
+
+}
+
+
+model withdrawalCart {
+  id                  Int @id @unique @default(autoincrement())
+  date                String?
+  departmentName        String?
+  stockId              Int
+  stock               user @relation(fields: [stockId], references: [id])
+
+  items               withdrawalCartItems[]
+}
+
+model withdrawalCartItems {
+  id                  Int @id @unique @default(autoincrement())
+  itemId              Int?
+  genericName         String
+  unit                String
+  category            String?
+  quantity            Int
+  expireDate          String?
+  cartId              Int
+  maxQuantity         Int?
+  itemParentId        String
+  cart                withdrawalCart @relation(fields: [cartId], references: [id])
+
+}
