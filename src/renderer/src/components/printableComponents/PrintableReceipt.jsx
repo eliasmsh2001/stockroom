@@ -3,7 +3,7 @@ import logoImg from '../../assets/images.jpg'
 
 const PrintableReceipt = ({ contentRef, item }) => {
   return (
-    <section ref={contentRef} className="flex flex-col items-center pt-6">
+    <section ref={contentRef} className="flex flex-col items-center pt-6 px-8">
       <div className="flex justify-between w-full">
         <img className="size-32" src={logoImg} alt="" />
         <div>

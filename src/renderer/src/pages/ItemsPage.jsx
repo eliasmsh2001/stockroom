@@ -4,11 +4,23 @@ import clsx from 'clsx'
 import DialogActions from '@mui/material/DialogActions'
 import { useDispatch } from 'react-redux'
 import { dialogActions } from '../util/slicers/dialogSlicer'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop'
+import { useReactToPrint } from 'react-to-print'
+import PrintableItemsList from '../components/printableComponents/PrintableItemsList'
 
 const ItemsPage = () => {
   const userId = JSON.parse(localStorage.getItem('user'))?.existingUser?.id
   const dispatch = useDispatch()
+
+  const contentRef = useRef(null)
+  const reactToPrintFn = useReactToPrint({
+    contentRef,
+    pageStyle: `@page {
+          size: A4 landscape;
+          margin: 0;
+        }`
+  })
 
   const categoryNames = ['قرطاسية', 'مستلزمات', 'مشغلات', 'أدوية']
   const [categorySelection, setCategorySelection] = useState('')
@@ -21,9 +33,17 @@ const ItemsPage = () => {
   })
   return (
     <section className="flex flex-col items-center p-4 gap-4">
+      <div className="hidden">
+        <PrintableItemsList
+          contentRef={contentRef}
+          allItems={allItems}
+          userId={userId}
+          categorySelection={categorySelection}
+        />
+      </div>
       <h1 className="text-mainBlue font-bold text-3xl mb-8">ALL ITEMS IN STOCK</h1>
 
-      <div className="flex justify-between w-[95%] ">
+      <div className="flex justify-between w-[80rem] ">
         <div className="flex gap-6">
           <div className="flex flex-col">
             <label htmlFor="" className="text-mainText font-bold text-xs">
@@ -56,12 +76,20 @@ const ItemsPage = () => {
             </select>
           </div>
         </div>
-        <button
-          onClick={() => dispatch(dialogActions.hadleOpenDialog('addItem'))}
-          className="py-4 px-10 text-white font-bold rounded-md bg-unique hover:opacity-45 hover:scale-110 duration-200"
-        >
-          ADD ITEM
-        </button>
+        <div className="flex gap-4 items-center ">
+          <button
+            onClick={reactToPrintFn}
+            className="bg-unique rounded-full size-14 hover:opacity-45 hover:scale-110 duration-200"
+          >
+            <LocalPrintshopIcon style={{ fill: 'white' }} />
+          </button>
+          <button
+            onClick={() => dispatch(dialogActions.hadleOpenDialog('addItem'))}
+            className="py-4 px-10 text-white font-bold rounded-md bg-mainBlue hover:opacity-45 hover:scale-110 duration-200"
+          >
+            ADD ITEM
+          </button>
+        </div>
       </div>
       <table className="">
         <thead>

@@ -23,7 +23,7 @@ const PrintableExpensesReport = ({
         </h1>
       </div>
 
-      <div className="w-full flex justify-center items-center mt-8">
+      <div className="w-full flex justify-center items-center mt-8 px-8">
         <table className="">
           <thead>
             <tr className="bg-mainBlue text-white font-bold ">
@@ -38,9 +38,9 @@ const PrintableExpensesReport = ({
               <tr
                 key={item?.id}
                 className={clsx(
-                  'text-mainText font-semibold py-2 h-8 border-b-2 border-mainBlue hover:bg-mainText/15 duration-200 ',
+                  'text-mainText font-semibold py-2 h-8 border-b-2 border-mainBlue ',
                   {
-                    'bg-mainBlue/10': index % 2 === 0
+                    'bg-mainBlue/15': index % 2 === 0
                   }
                 )}
               >

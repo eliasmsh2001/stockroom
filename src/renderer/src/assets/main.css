@@ -36,8 +36,8 @@ tr {
     -webkit-print-color-adjust: exact;
   }
 
-  .background-element {
+  /* .background-element {
     background-color: your-color !important;
     background-image: url('your-image.jpg') !important;
-  }
+  } */
 }

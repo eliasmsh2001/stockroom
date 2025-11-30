@@ -308,8 +308,7 @@ const EditWithdrawalPage = () => {
                     'text-mainText text-sm font-bold h-8 border-b-2 border-mainText',
                     {
                       'bg-alert/45': item?.maxQuantity < item?.quantity,
-                      'bg-slate-100': index % 2 === 0 && !(item?.maxQuantity > item?.quantity),
-                      'bg-mainText/20': index % 2 !== 0 && !(item?.maxQuantity > item?.quantity)
+                      'bg-mainText/15': item?.maxQuantity === item?.quantity
                     }
                   )}
                 >

@@ -3,7 +3,7 @@ import logoImg from '../../assets/images.jpg'
 
 const PrintableWithdrawal = ({ contentRef, item }) => {
   return (
-    <section ref={contentRef} className="flex flex-col items-center w-full pt-6">
+    <section ref={contentRef} className="flex flex-col items-center w-full pt-6 px-8">
       <div className="flex justify-between w-full">
         <img className="size-32" src={logoImg} alt="" />
         <div>
@@ -41,7 +41,7 @@ const PrintableWithdrawal = ({ contentRef, item }) => {
                 key={item.id}
                 className={clsx('text-mainText text-xs font-bold border-b-2 border-mainText', {
                   'bg-slate-100': index % 2 === 0,
-                  'bg-mainText/5': index % 2 !== 0
+                  'bg-mainText/20': index % 2 !== 0
                 })}
               >
                 <th className="border-r-2 border-mainText">{index + 1}</th>

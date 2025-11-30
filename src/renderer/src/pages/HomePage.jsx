@@ -12,7 +12,7 @@ const HomePage = () => {
   })
 
   return (
-    <section className="size-full p-8 flex gap-8">
+    <section className="size-full p-8 flex gap-8 overflow-y-scroll">
       <div className="w-1/2 h-full ">
         <h1 className="text-xl font-bold text-mainBlue text-center mb-8">
           EXPIRING/EXPIRED ITEMS LIST

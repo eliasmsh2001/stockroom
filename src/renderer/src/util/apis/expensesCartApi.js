@@ -132,23 +132,28 @@ export const editWithdrawal = async (data) => {
     body: JSON.stringify({ data })
   })
 
-  if (!response.ok) {
-    // throw Error('Failed to post a new patient!!')
-    if (response.status === 400) {
-      throw Error("Please set the department's name for this receipt")
-    } else if (response.status === 401) {
-      throw Error('Please set a date for this receipt')
-    } else if (response.status === 402) {
-      throw Error('The receipt should contain atleast one item to be submitted!')
-    } else if (response.status === 403) {
-      throw Error(
-        'Please Enter valid quantities (one of the items you want to withdraw has passed max quantity)'
-      )
-    } else {
-      throw Error('This could be an internal issue, contact support or try to restart the app')
-    }
-  }
+  // if (!response.ok) {
+  //   // throw Error('Failed to post a new patient!!')
+  //   if (response.status === 400) {
+  //     throw Error("Please set the department's name for this receipt")
+  //   } else if (response.status === 401) {
+  //     throw Error('Please set a date for this receipt')
+  //   } else if (response.status === 402) {
+  //     throw Error('The receipt should contain atleast one item to be submitted!')
+  //   } else if (response.status === 403) {
+  //     throw Error(
+  //       'Please Enter valid quantities (one of the items you want to withdraw has passed max quantity)'
+  //     )
+  //   } else {
+  //     throw Error('This could be an internal issue, contact support or try to restart the app')
+  //   }
+  // }
 
   const newData = await response.json()
+
+  if (!response.ok) {
+    throw new Error(newData?.error)
+  }
+
   return newData
 }
